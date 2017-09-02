@@ -1,12 +1,9 @@
 
 class Instructions
-  def initialize
-    welcome_screen_selection
-  end
 
   def display_welcome_screen
     p "Welcome to BATTLESHIP"
-    gets "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
+    p "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     player_choice = gets.chomp.downcase
   end
 
@@ -22,20 +19,22 @@ class Instructions
     p "Once all coordinates of a ship have been hit, that ship is sunk."
     p "The game is over when all of a player's ships have been sunk."
     p "Press enter to continue"
-    press_enter_to_continue
+    user_keystroke = gets
+    press_enter_to_continue(user_keystroke)
   end
 
-  def press_enter_to_continue
-    if user_keystroke == "\n"
-      display_welcome_screen
-    else
+  def press_enter_to_continue(user_keystroke)
+    if user_keystroke != "\n"
       p "Please press enter."
-      press_enter_to_continue
+      user_keystroke = gets
+      press_enter_to_continue(user_keystroke)
+    else
+      display_welcome_screen
     end
   end
 
   def quit_program
-    exit
+    Kernel.exit
   end
 
   def welcome_screen_selection
