@@ -8,6 +8,15 @@ class Instructions
   end
 
   def play_game
+    p "I have laid out my ships on the grid."
+    p 'You now need to layout your two ships.
+      The first is two units long and the
+      second is three units long.
+      The grid has A1 at the top left and D4 at the bottom right.
+      Enter the squares for the two-unit ship:'
+
+      coordinates = gets.chomp
+      Ships.new(coordinates)
   end
 
   def display_game_instructions

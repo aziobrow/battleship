@@ -18,6 +18,6 @@ class GameBoardTest < Minitest::Test
 
   def test_it_can_set_up_a_board_with_appropriate_key_values
     game_board = GameBoard.new
-    p game_board.setup_board
+    p game_board.setup_board[0]
   end
 end
