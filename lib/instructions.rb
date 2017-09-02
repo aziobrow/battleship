@@ -1,5 +1,8 @@
 
 class Instructions
+  def initialize
+    welcome_screen_selection
+  end
 
   def display_welcome_screen
     p "Welcome to BATTLESHIP"
@@ -23,11 +26,13 @@ class Instructions
   end
 
   def press_enter_to_continue
-    if user_keystroke == #enter
+    if user_keystroke == "\n"
       display_welcome_screen
     else
-      
-
+      p "Please press enter."
+      press_enter_to_continue
+    end
+  end
 
   def quit_program
     exit
@@ -39,7 +44,11 @@ class Instructions
       quit_program
     elsif starting_choice == 'i' || starting_choice == 'instructions'
       display_game_instructions
-    if starting_choice = 'p' || starting_choice == 'play'
+    elsif starting_choice = 'p' || starting_choice == 'play'
       #start ship selection sequence
+    else
+      display_welcome_screen
+    end
+  end
 
 end

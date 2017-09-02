@@ -7,8 +7,12 @@ class InstructionsTest < Minitest::Test
     assert_instance_of Instructions, Instructions.new
   end
 
-  def test_it_prints_welcome_screen
+  def test_display_welcome_screen_takes_player_choice
     instructions = Instructions.new
-    instructions.welcome_screen
+
+    assert_equal 'p', display_welcome_screen
   end
+
+  # def test_it_initializes_to_welcome_screen_selection
+  # end
 end
