@@ -7,15 +7,17 @@ class InstructionsTest < Minitest::Test
     assert_instance_of Instructions, Instructions.new
   end
 
+  def test_display_game_instructions_calls_
+
   def test_press_enter_to_continue_returns_to_welcome_screen_if_input_is_enter
     instructions = Instructions.new
 
-    assert_equal "/n", instructions.press_enter_to_continue
+    assert_equal "/n", instructions.press_enter_to_continue()
   end
 
   def test_display_welcome_screen_takes_player_choice
     instructions = Instructions.new
-  
+
     assert_equal 'i', instructions.display_welcome_screen
   end
 
