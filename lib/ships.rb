@@ -12,28 +12,22 @@ class Ships
   attr_reader :coordinates, :game_board
 
   def initialize(coordinates)
-    @game_board = GameBoard.new.setup_board
+    @game_board = GameBoard.new
     @coordinates = coordinates.split(' ')
   end
 
-  def same_row?
+
+  def coordinates_same_row?
     letter = @coordinates[0][0]
-    keys = []
-    @game_board.each do |position|
-      position.each do |game_square|
-        keys << game_square.keys
-        require "pry"; binding.pry
-      end
-    end
-    return true if (keys & @coordinates) == @coordinates
+    row = @game_board.find_a_row(letter)
+    return true if (row.keys & @coordinates) == @coordinates
     false
   end
 
-  def same_column?
-    columns = ['1', '2', '3', '4']
-    columns.each do |column|
-      return true if @coordinates.all? {|coordinate| coordinate.end_with?(column)}
-    end
+  def coordinates_same_column?
+    number = @coordinates[0][1]
+    column = @game_board.find_a_column(number)
+    return true if (column.keys & @coordinates) == @coordinates
     false
   end
 
