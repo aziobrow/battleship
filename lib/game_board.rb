@@ -3,14 +3,18 @@ class GameBoard
   attr_reader :board
 
   def initialize
-    @board = []
+    @board = Array.new(4) {[]}
+    @a_row = @board[0]
+    @b_row = @board[1]
+    @c_row = @board[2]
+    @d_row = @board[3]
   end
 
   def setup_board
     letters = ['A', 'B', 'C', 'D']
-    row = @board
 
-    letters.each do |letter|
+    letters.each_with_index do |letter, index|
+      row = @board[index]
       set_key_values_for_row(row, letter)
     end
     @board
@@ -18,7 +22,6 @@ class GameBoard
 
   def set_key_values_for_row(row, letter)
       number = 1
-      values = []
       4.times do |position|
       key_value = letter + number.to_s
       position = Hash.new

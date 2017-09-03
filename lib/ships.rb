@@ -17,10 +17,15 @@ class Ships
   end
 
   def same_row?
-    rows = ['A', 'B', 'C', 'D'] #would be better to get these from hash keys
-    rows.each do |row|
-      return true if @coordinates.all? {|coordinate| coordinate.start_with?(row)}
+    letter = @coordinates[0][0]
+    keys = []
+    @game_board.each do |position|
+      position.each do |game_square|
+        keys << game_square.keys
+        require "pry"; binding.pry
+      end
     end
+    return true if (keys & @coordinates) == @coordinates
     false
   end
 
@@ -34,9 +39,9 @@ class Ships
 
   def already_used_coordinates?(coordinates)
     coordinates.each do |coordinate|
-      @game_board.each do |position|
-        if position.has_key?(coordinate)
-          return true if position[coordinate] != nil
+      @game_board.each_with_index do |position, index|
+        if position[index].has_key?(coordinate)
+          return true if position[index][coordinate] != nil
         end
       end
     end

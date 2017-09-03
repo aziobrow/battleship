@@ -16,7 +16,7 @@ class Instructions
       Enter the squares for the two-unit ship:'
 
       coordinates = gets.chomp
-      Ships.new(coordinates)
+      Coordinates.new(coordinates)
   end
 
   def display_game_instructions
