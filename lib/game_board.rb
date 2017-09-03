@@ -4,7 +4,7 @@ class GameBoard
 
   def initialize
     @board = setup_board
-    @rows = {'A' => 0, 'B' => 2, 'C' => 3, 'D' => 4}
+    @rows = {'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3}
     @columns = ['1', '2', '3', '4']
   end
 

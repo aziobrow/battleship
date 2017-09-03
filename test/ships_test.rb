@@ -17,6 +17,11 @@ class ShipsTest < Minitest::Test
 
     assert ships.coordinates_same_row?
 
+    coordinates = 'C1 C2'
+    ships = Ships.new(coordinates)
+
+    assert ships.coordinates_same_row?
+
     coordinates = 'A1 B1'
     ships = Ships.new(coordinates)
 
@@ -36,7 +41,6 @@ class ShipsTest < Minitest::Test
   end
 
   def test_it_knows_already_used_coordinates?
-    skip
     coordinates = 'A1 A2'
     ships = Ships.new(coordinates)
     coordinates = ships.coordinates
@@ -44,8 +48,81 @@ class ShipsTest < Minitest::Test
     refute ships.already_used_coordinates?(coordinates)
   end
 
+  def test_it_can_mark_placement_of_ships
+    coordinates = 'A1 A2'
+    ships = Ships.new(coordinates)
+    coordinates = ships.coordinates
+    ships.mark_ships(coordinates)
 
+    assert ships.game_board.board[0][0]['A1']
+  end
 
+  def test_it_can_check_for_consecutive_squares
+    coordinates = 'A1 A2'
+    ships = Ships.new(coordinates)
+    columns = ['1','2']
 
+    assert ships.consecutive?(columns)
+
+    rows = ['A', 'B']
+
+    assert ships.consecutive?(rows)
+
+    columns = ['1', '3']
+
+    refute ships.consecutive?(columns)
+
+    rows = ['B', 'D']
+
+    refute ships.consecutive?(rows)
+  end
+
+  def test_it_can_generate_three_coordinates_given_range_of_same_row_coordinates
+    coordinates = 'A1 A3'
+    ships = Ships.new(coordinates)
+    columns = ['1', '3']
+    ships.set_three_coordinates(coordinates, columns)
+
+    assert_equal ['A1', 'A2', 'A3'], ships.coordinates
+  end
+
+  def test_it_can_generate_three_coordinates_given_range_of_same_column_coordinates
+    coordinates = 'B1 D1'
+    ships = Ships.new(coordinates)
+    rows = ['B', 'D']
+    ships.set_three_coordinates(coordinates, rows)
+
+    assert_equal ['B1', 'C1', 'D1'], ships.coordinates
+  end
+
+  def test_it_can_count_size_of_ship
+    coordinates = 'A1 A3'
+    ships = Ships.new(coordinates)
+
+    assert_equal 2, ships.count_coordinate_range(coordinates)
+
+    coordinates = 'C1 C2'
+    ships = Ships.new(coordinates)
+
+    assert_equal 1, ships.count_coordinate_range(coordinates)
+
+    coordinates = 'B2 D2'
+    ships = Ships.new(coordinates)
+
+    assert_equal 2, ships.count_coordinate_range(coordinates)
+  end
+
+  def test_it_knows_valid_coordinates
+    coordinates = 'A1 A3'
+    ships = Ships.new(coordinates)
+    require "pry"; binding.pry
+
+    assert ships.has_coordinates_on_gameboard(coordinates)
+
+    coordinates = 'A1 E3'
+    ships = Ships.new(coordinates)
+
+    refute ships.has_coordinates_on_gameboard(coordinates)
+  end
 
 end
