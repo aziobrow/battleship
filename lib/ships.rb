@@ -9,11 +9,17 @@ require_relative 'game_board'
 
 class Ships
 
-  attr_reader :coordinates, :game_board
+  attr_reader :coordinates, :game_board, :two_unit_ship, :three_unit_ship
 
   def initialize(coordinates)
     @game_board = GameBoard.new
     @coordinates = coordinates.split(' ')
+    @two_unit_ship = false
+    @three_unit_ship = false
+  end
+
+  def request_second_pair_of_coordinates
+    #call instructions class here?
   end
 
   def consecutive?(values_to_check)
@@ -76,7 +82,7 @@ class Ships
   end
 
   def already_used_coordinates?(coordinates)
-    coordinates.each do |coordinate|
+    @coordinates.each do |coordinate|
       @game_board.board.each_with_index do |row, index|
         if row[0].has_key?(coordinate)
           return true if row[0][coordinate] != nil
@@ -86,26 +92,29 @@ class Ships
     false
   end
 
-  def has_coordinates_on_gameboard(coordinates)
+  def has_coordinates_on_gameboard?(coordinates)
     valid_coordinates = []
-    coordinates.each do |coordinate|
-      @game_board.each do |row|
-        if row[0].keys.has_key?(coordinate)
+    @game_board.board.each do |row|
+      @coordinates.each do |coordinate|
+        if row[0].has_key?(coordinate)
           valid_coordinates << coordinate
-          return true if (valid_coordinates & @coordinates) == @coordinates
         end
-        false
       end
     end
+    return true if (valid_coordinates & @coordinates) == @coordinates
+    false
   end
 
   def invalid_ship_placement?(coordinates)
-    true if coordinates != 2
-    true if !(ships.same_column? && ships.same_row?)
-    true if already_used_coordinates?(coordinates)
-    true if count_coordinate_range > 2
-    #add for coordinates outside of grid (iterate through keys to find match)
-    #add for two two-ships or two-three ships
+    return true if @coordinates.length != 2
+    return true if coordinates_same_column? && coordinates_same_row
+    return true if !(coordinates_same_column? || coordinates_same_row?)
+    return true if already_used_coordinates?(coordinates)
+    return true if count_coordinate_range(coordinates) > 2
+    return true if !has_coordinates_on_gameboard?(coordinates)
+    return true if count_coordinate_range(coordinates) == 2 and @three_unit_ship == true
+    return true if count_coordinate_range(coordinates) == 1 and @two_unit_ship == true
+    false
   end
 
   def mark_ships(coordinates)
@@ -113,6 +122,11 @@ class Ships
       @game_board.board.each do |row|
         if row[0].has_key?(coordinate)
           row[0][coordinate] = true
+          if count_coordinate_range(coordinate) == 2
+            @three_unit_ship = true
+          else
+            @two_unit_ship = true
+          end
         end
       end
     end

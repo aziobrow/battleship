@@ -112,17 +112,67 @@ class ShipsTest < Minitest::Test
     assert_equal 2, ships.count_coordinate_range(coordinates)
   end
 
+  def test_it_marks_two_unit_and_three_unit_ships_as_placed
+    coordinates = 'C1 C3'
+    ships = Ships.new(coordinates)
+    ships.mark_ships(coordinates)
+
+    assert ships.three_unit_ship
+
+    coordinates = 'B1 C1'
+    ships = Ships.new(coordinates)
+    ships.mark_ships(coordinates)
+
+    assert ships.two_unit_ship
+  end
+
   def test_it_knows_valid_coordinates
     coordinates = 'A1 A3'
     ships = Ships.new(coordinates)
-    require "pry"; binding.pry
 
-    assert ships.has_coordinates_on_gameboard(coordinates)
+    assert ships.has_coordinates_on_gameboard?(coordinates)
 
     coordinates = 'A1 E3'
     ships = Ships.new(coordinates)
 
-    refute ships.has_coordinates_on_gameboard(coordinates)
+    refute ships.has_coordinates_on_gameboard?(coordinates)
+
+    coordinates = 'C2 B7'
+    ships = Ships.new(coordinates)
+
+    refute ships.has_coordinates_on_gameboard?(coordinates)
+  end
+
+  def test_it_recognizes_invalid_ship_placement
+    coordinates = 'D1 D3'
+    ships = Ships.new(coordinates)
+
+    refute ships.invalid_ship_placement?(coordinates)
+    
+    coordinates = 'D1'
+    ships = Ships.new(coordinates)
+
+    assert ships.invalid_ship_placement?(coordinates)
+
+    coordinates = 'A1 A1'
+    ships = Ships.new(coordinates)
+
+    assert ships.invalid_ship_placement?(coordinates)
+
+    coordinates = 'D1 B2'
+    ships = Ships.new(coordinates)
+
+    assert ships.invalid_ship_placement?(coordinates)
+
+    coordinates = 'C1 C4'
+    ships = Ships.new(coordinates)
+
+    assert ships.invalid_ship_placement?(coordinates)
+
+    coordinates = 'B3 Z2'
+    ships = Ships.new(coordinates)
+
+    assert ships.invalid_ship_placement?(coordinates)
   end
 
 end

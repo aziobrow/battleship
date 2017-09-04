@@ -44,4 +44,11 @@ class GameBoard
     column_elements.to_h
   end
 
+  def render_board
+    p '=' * @columns.length + 1
+    p '.' + @columns.each {|column| p column}
+    p 'A' + ' ' * @columns.length
+    p 'B' + ' ' * @columns.length
+    p 'C' + ' ' * @columns.length
+    p 'D' + ' ' * @columns.length
 end
