@@ -1,11 +1,5 @@
-# Ships cannot wrap around the board
-# Ships cannot overlap
-# Ships can be laid either horizontally or vertically
-# Coordinates must correspond to the first and last units of the ship. (IE: You can’t place a two unit ship at “A1 A3”)
-require_relative 'game_board'
 
-#need to change so placing coordinate doesn't happen at initialize?
-#missing middle for three ship coordinates
+require_relative 'game_board'
 
 class Ships
 

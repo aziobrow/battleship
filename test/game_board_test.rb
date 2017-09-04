@@ -1,5 +1,6 @@
 require_relative 'test_helper'
 require './lib/game_board'
+require './lib/ships'
 
 class GameBoardTest < Minitest::Test
 
@@ -38,10 +39,13 @@ class GameBoardTest < Minitest::Test
     assert_equal ({'A1'=> nil, 'B1'=> nil, 'C1'=> nil, 'D1'=> nil}), game_board.find_a_column('1')
   end
 
-  def test_it_renders_board
+  def test_it_knows_win_conditions
     game_board = GameBoard.new
+    coordinates = ('A1 D2')
+    ships = Ships.new(coordinates)
+    ships.mark_ships(coordinates)
 
-    p game_board.render_board
+    assert_equal ['A3', 'D2'], game_board.winning_positions
   end
 
 end

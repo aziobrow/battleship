@@ -1,11 +1,12 @@
 class GameBoard
 
-  attr_reader :board, :rows, :columns
+  attr_reader :board, :rows, :columns, :winning_positions
 
   def initialize
     @board = setup_board
     @rows = {'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3}
     @columns = ['1', '2', '3', '4']
+    @winning_positions = []
   end
 
   def setup_board
@@ -42,6 +43,14 @@ class GameBoard
       column_elements << game_row[0].find {|key, value| key.end_with?(number)}
     end
     column_elements.to_h
+  end
+
+  def win_condition
+    @board.each do |row|
+      row.each_key do |key|
+        @winning_positions << row[key] if row[key] != nil
+      end
+    end
   end
 
 end
